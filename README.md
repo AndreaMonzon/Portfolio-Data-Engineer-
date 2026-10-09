@@ -3,9 +3,10 @@
 1. Refactorización Analítica & Query Tuning (Single-Pass Engine)Problema Original: El modelo previo utilizaba Self-Joins costosos ($O(N^2)$) sumando desplazamientos de período (anticipo + 100) y subconsultas correlacionadas escalares (SELECT MAX(...)) ejecutadas iterativamente por cada fila.
 2. Solución Aplicada: 
 Reescritura completa mediante Expresiones de Tabla Comunes (WITH CTEs) y funciones analíticas de ventana (ROW_NUMBER() y LAG()).
+
 Resultado: Cálculo simulado de comparativas $t-1$ (MoM) y $t-12$ (YoY) en una sola pasada (Single-Pass) sobre la tabla base, reduciendo la complejidad algorítmica de $O(N^2)$ a $O(N \log N)$ y disminuyendo las lecturas de bloque de disco.
 
-3. Ingesta Incremental Vectorizada & Batch Commit (PL/SQL)Procesamiento por Lotes: Reemplazo de bucles row-by-row por lectura y procesamiento vectorizado con BULK COLLECT INTO y parámetro LIMIT 100, minimizando el choque térmico (Context Switching) entre los motores PL/SQL y SQL.
+4. Ingesta Incremental Vectorizada & Batch Commit (PL/SQL)Procesamiento por Lotes: Reemplazo de bucles row-by-row por lectura y procesamiento vectorizado con BULK COLLECT INTO y parámetro LIMIT 100, minimizando el choque térmico (Context Switching) entre los motores PL/SQL y SQL.
 
 Mapeo de Transacciones: Gestión de transacciones con Batch Commit cada 100 registros para evitar el agotamiento del área de Undo/Redo Tablespace en ejecuciones masivas sobre DBLink.
 
