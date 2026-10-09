@@ -1,4 +1,6 @@
+```mermaid
 flowchart TD
+
     %% Nodos de la Fuente
     subgraph S1 ["1. Fuente OLTP Remota"]
         A[("Oracle OLTP<br/>@tcsprod")]
@@ -56,3 +58,4 @@ flowchart TD
     class B,B1,B2,B3 ingesta;
     class C,D,D1,D2 dw;
     class E,E1,E2,E3 analitica;
+```
