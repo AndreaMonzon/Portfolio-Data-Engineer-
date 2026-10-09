@@ -22,7 +22,7 @@ flowchart TD
         C[("Tabla Staging<br/>analitic.detalle_dj")]
         D["Vista de Unificación<br/>VW_DETALLE_DJ_AGREGADO"]
         D1["Mapeo Fallback DECODE<br/>(CUACM / NAECBA / NAES)"]
-        D2["Prorrateo & Control Error 0<br/>(NULLIF + Window Count)"]
+        D2["Distribucion proporcional  & Control Error 0<br/>(NULLIF + Window Count)"]
         C --> D
         D --- D1
         D --- D2
