@@ -1,6 +1,7 @@
  Logros Técnicos y Principios de Diseño
 
-1. Refactorización Analítica & Query Tuning (Single-Pass Engine)Problema Original: El modelo previo utilizaba Self-Joins costosos ($O(N^2)$) sumando desplazamientos de período (anticipo + 100) y subconsultas correlacionadas escalares (SELECT MAX(...)) ejecutadas iterativamente por cada fila.Solución Aplicada: 
+1. Refactorización Analítica & Query Tuning (Single-Pass Engine)Problema Original: El modelo previo utilizaba Self-Joins costosos ($O(N^2)$) sumando desplazamientos de período (anticipo + 100) y subconsultas correlacionadas escalares (SELECT MAX(...)) ejecutadas iterativamente por cada fila.
+2. Solución Aplicada: 
 Reescritura completa mediante Expresiones de Tabla Comunes (WITH CTEs) y funciones analíticas de ventana (ROW_NUMBER() y LAG()).
 Resultado: Cálculo simulado de comparativas $t-1$ (MoM) y $t-12$ (YoY) en una sola pasada (Single-Pass) sobre la tabla base, reduciendo la complejidad algorítmica de $O(N^2)$ a $O(N \log N)$ y disminuyendo las lecturas de bloque de disco.
 
