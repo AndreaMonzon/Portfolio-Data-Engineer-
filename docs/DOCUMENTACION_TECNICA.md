@@ -1,7 +1,7 @@
 # 🏛️ Documentación Técnica de la Arquitectura de Datos
 
 ## 1. Fuente OLTP Remota
-* **Tecnología:** Oracle Database distante conectada mediante `DBLink` (`@tcsprod`).
+* **Tecnología:** Oracle Database distante conectada mediante `DBLink` (`@ORIGEN`).
 * **Origen:** Tabla transaccional `ddjj_para_procesar` que registra las declaraciones juradas pendientes de procesamiento (`procesada = 'N'`) filtrando por impuesto (`0035`) y concepto (`0017`).
 
 ---

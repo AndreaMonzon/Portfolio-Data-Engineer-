@@ -3,7 +3,7 @@ flowchart TD
 
     %% Nodos de la Fuente
     subgraph S1 ["1. Fuente OLTP Remota"]
-        A[("Oracle OLTP<br/>@tcsprod")]
+        A[("Oracle OLTP<br/>@ORIGEN")]
         A1["ddjj_para_procesar<br/>(procesada = 'N')"]
         A --- A1
     end

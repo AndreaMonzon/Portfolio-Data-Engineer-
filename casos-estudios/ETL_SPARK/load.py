@@ -20,3 +20,4 @@ def write_target(df: DataFrame, s: Settings) -> None:
         .mode("overwrite")
         .save()
     )
+

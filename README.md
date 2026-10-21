@@ -35,7 +35,7 @@ La solución abarca desde la ingesta incremental batcheada de sistemas OLTP remo
 ```mermaid
 flowchart LR
     subgraph Fuentes ["1. Origen OLTP Remoto"]
-        A[DBLink: @tcsprod<br/>ddjj_para_procesar]
+        A[DBLink: @ORIGEN<br/>ddjj_para_procesar]
     end
 
     subgraph Ingesta ["2. Ingesta Incremental"]

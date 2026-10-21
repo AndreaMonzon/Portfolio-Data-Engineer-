@@ -1,0 +1,7 @@
+.env
+**/resultado/
+*.csv
+*.xlsx
+*.zip
+*.parquet
+__pycache__/

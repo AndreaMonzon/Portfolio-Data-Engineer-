@@ -34,7 +34,7 @@ def main() -> None:
 
         resultado = transform(df_a)
 
-        t0 = time.time()
+        t0 = time.time() #se obt
         write_target(resultado, settings)
         log.info("Carga finalizada en %.1f minutos", (time.time() - t0) / 60)
     finally:
