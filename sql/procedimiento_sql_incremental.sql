@@ -56,7 +56,7 @@ BEGIN
                     -- Verificar si ya existen los registros en el destino
                     SELECT COUNT(*)
                     INTO v_count_destino
-                    FROM analitic.detalle_dj
+                    FROM detalle_dj
                     WHERE numero_obligacion_impuesto = v_lote(i).numero_obligacion_impuesto
                       AND anio                       = v_lote(i).anio
                       AND numero_cuota               = v_lote(i).numero_cuota
@@ -67,7 +67,7 @@ BEGIN
                     IF v_count_destino != v_count_origen THEN
                         
                         -- Eliminar inconsistencias previas
-                        DELETE FROM analitic.detalle_dj
+                        DELETE FROM detalle_dj
                         WHERE numero_obligacion_impuesto = v_lote(i).numero_obligacion_impuesto
                           AND anio                       = v_lote(i).anio
                           AND numero_cuota               = v_lote(i).numero_cuota
@@ -75,7 +75,7 @@ BEGIN
                           AND tipo_contrib               = 'Directo';
 
                         -- Carga de nuevos registros
-                        INSERT INTO analitic.detalle_dj (
+                        INSERT INTO detalle_dj (
                             tipo_contrib, cuit, anticipo, anticipo_fecha, anio, numero_cuota,
                             cod_grupo, desc_grupo, cod_subgrupo, desc_subgrupo, actividad,
                             desc_actividad, base_imponible, impuesto, alicuota_declarada,
