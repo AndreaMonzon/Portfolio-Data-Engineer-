@@ -7,8 +7,8 @@ WITH base_ult_rectificativa AS (
       PARTITION BY d.cuit, d.anticipo, d.tipo_contrib, d.tratamiento, d.regimen, d.codigo_naes_unificado
       ORDER BY d.numero_rectificativa DESC
     ) AS rn_rect
-  FROM analitic.VW_DETALLE_DJ_AGREGADO d
-  JOIN analitic.cabecera_dj c
+  FROM VW_DETALLE_DJ_AGREGADO d
+  JOIN cabecera_dj c
     ON d.anticipo = c.anticipo 
    AND d.cuit = c.cuit 
    AND d.numero_rectificativa = c.numero_rectificativa
