@@ -53,7 +53,7 @@ WITH detalle_con_conteo AS (
         COUNT(*) OVER (
             PARTITION BY a.CUIT, a.ANTICIPO, a.TIPO_CONTRIB, a.ACTIVIDAD, a.NUMERO_RECTIFICATIVA
         ) AS total_col
-    FROM analitic.detalle_dj_prueba a
+    FROM detalle_dj_prueba a
 ),
 detalle_mapeado AS (
     SELECT 
@@ -75,7 +75,7 @@ detalle_mapeado AS (
         b2.descripcion_cuacm AS descripcion_cuacm2,
         b2.descripcion_naecba AS descripcion_naecba2
     FROM detalle_con_conteo d
-    LEFT JOIN analitic.codigos_cuac_naes b1 
+    LEFT JOIN codigos_cuac_naes b1 
         ON b1.cuacm_corregido = d.ACTIVIDAD
     LEFT JOIN analitic.codigos_cuac_naes b2 
         ON b2.naecba = d.ACTIVIDAD 
