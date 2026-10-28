@@ -4,7 +4,7 @@ Documentación Funcional y Técnica
 1-Unificar Nomencladores Impositivos: Homogeneizar los códigos de actividades económicas expresados en distintos esquemas impositivos 
 (NAES, CUACM, NAECBA) a un estándar unificado (NAES_UNIFICADO).
 
-2-Distribución proporcionalValores Impositivos: Calcular el valor unitario prorrateado de la base imponible e
+2-Distribución proporcional Valores Impositivos: Calcular el valor unitario prorrateado de la base imponible e
  impuesto (imp_div, base_imponible_div) dividiendo las métricas sobre el recuento de registros originales (total_col),
   asegurando que no existan distorsiones producidas por duplicaciones en la tabla de mapeo.
 
@@ -30,7 +30,7 @@ WITH detalle_con_conteo AS (
         a.CUIT, 
         a.ANTICIPO, 
         a.ANTICIPO_FECHA, 
-        a.ANIO, 
+        a.ANIO,
         a.NUMERO_CUOTA, 
         a.COD_GRUPO, 
         a.DESC_GRUPO, 
