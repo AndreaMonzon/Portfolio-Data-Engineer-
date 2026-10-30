@@ -5,3 +5,6 @@
 *.zip
 *.parquet
 __pycache__/
+*.pyc
+airflow/data/comarb_staging/
+airflow/data/comarb_procesados.json

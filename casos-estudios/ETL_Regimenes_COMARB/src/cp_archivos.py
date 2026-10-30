@@ -1,46 +1,97 @@
+import hashlib
+import json
+import logging
 import os
 import shutil
+from datetime import datetime
+from typing import Dict, List, Optional
 
-# Definimos las carpetas principales y sus subcarpetas a procesar
-config = {
-    "SIFERE": ["901", "904", "905", "906", "908"],
-    "SIRCAR": ["904", "905", "906", "908"],
-    "SIRCREB": ["901", "904", "905", "906", "908", "916"]
+log = logging.getLogger(__name__)
+
+CONFIG = {
+    "SIFERE":  ["901", "904", "905", "906", "908"],
+    "SIRCAR":  ["904", "905", "906", "908"],
+    "SIRCREB": ["901", "904", "905", "906", "908", "916"],
 }
 
-# Carpeta raíz general (donde están SIFERE, SIRCAR, SIRCREB)
-raiz = r"F:\Tableau\Regimenes CM"
 
-# Carpeta destino fija
-destino = r"C:\automatizacion\sircar-sircreb-sifere"
-os.makedirs(destino, exist_ok=True)
+def _es_archivo_valido(nombre: str) -> bool:
+    return not (nombre.startswith("~$") or nombre.startswith("."))
 
-for sistema, subcarpetas in config.items():
-    for sub in subcarpetas:
-        carpeta = os.path.join(raiz, sistema, sub)
 
-        if not os.path.exists(carpeta):
-            print(f"La carpeta {carpeta} no existe, se salta.")
-            continue
+def _sha256(path: str, chunk: int = 1 << 20) -> str:
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for bloque in iter(lambda: f.read(chunk), b""):
+            h.update(bloque)
+    return h.hexdigest()
 
-        # Listar archivos en la subcarpeta
-        archivos = [
-            os.path.join(carpeta, f)
-            for f in os.listdir(carpeta)
-            if os.path.isfile(os.path.join(carpeta, f))
-        ]
 
-        if archivos:
-            # Buscar el más reciente
-            archivo_reciente = max(archivos, key=os.path.getmtime)
+def _cargar_registro(path: str) -> Dict:
+    if not os.path.exists(path):
+        return {}
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)
 
-            # Usar el nombre original del archivo
-            nombre_archivo = os.path.basename(archivo_reciente)
-            destino_final = os.path.join(destino, nombre_archivo)
 
-            # Copiar
-            shutil.copy2(archivo_reciente, destino_final)
+def _guardar_registro(path: str, data: Dict) -> None:
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
 
-            print(f" {sistema} {sub} → '{nombre_archivo}' copiado a {destino_final}")
-        else:
-            print(f"⚠ No hay archivos en la carpeta {carpeta}")
+
+def procesar_copiar_archivos(
+    raiz: Optional[str] = None,
+    destino: Optional[str] = None,
+    registro: Optional[str] = None,
+) -> List[str]:
+    raiz     = raiz     or os.getenv("COMARB_RAIZ",     "/opt/airflow/data/comarb")
+    destino  = destino  or os.getenv("COMARB_DESTINO",  "/opt/airflow/data/comarb_staging")
+    registro = registro or os.getenv("COMARB_REGISTRO", "/opt/airflow/data/comarb_procesados.json")
+
+    if not os.path.isdir(raiz):
+        raise FileNotFoundError("Raíz COMARB no existe o no está montada: {}".format(raiz))
+
+    os.makedirs(destino, exist_ok=True)
+    procesados = _cargar_registro(registro)
+
+    nuevos = []  # type: List[str]
+
+    for sistema, subcarpetas in CONFIG.items():
+        for sub in subcarpetas:
+            carpeta = os.path.join(raiz, sistema, sub)
+            if not os.path.isdir(carpeta):
+                log.warning("Carpeta inexistente: %s", carpeta)
+                continue
+
+            archivos = [
+                os.path.join(carpeta, f)
+                for f in os.listdir(carpeta)
+                if os.path.isfile(os.path.join(carpeta, f)) and _es_archivo_valido(f)
+            ]
+            if not archivos:
+                log.warning("Sin archivos válidos en %s", carpeta)
+                continue
+
+            origen = max(archivos, key=os.path.getmtime)
+            huella = _sha256(origen)
+
+            if huella in procesados:
+                log.info("%s/%s: ya procesado (%s), skip.", sistema, sub, huella[:10])
+                continue
+
+            destino_final = os.path.join(destino, sistema, sub, os.path.basename(origen))
+            os.makedirs(os.path.dirname(destino_final), exist_ok=True)
+            shutil.copy2(origen, destino_final)
+
+            procesados[huella] = {
+                "origen":    origen,
+                "destino":   destino_final,
+                "procesado": datetime.now().isoformat(timespec="seconds"),
+            }
+            nuevos.append(destino_final)
+            log.info("%s/%s -> %s (nuevo)", sistema, sub, destino_final)
+
+    _guardar_registro(registro, procesados)
+    log.info("Archivos nuevos: %d. Total histórico: %d.", len(nuevos), len(procesados))
+    return nuevos

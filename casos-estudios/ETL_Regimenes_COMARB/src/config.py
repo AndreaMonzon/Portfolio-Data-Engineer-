@@ -1,30 +1,32 @@
 import os
 from pathlib import Path
-from dotenv import load_dotenv
 
-load_dotenv()
+# Ya no usamos load_dotenv: las vars vienen del docker-compose.
+# Si querés soportar .env local, descomentá:
+# from dotenv import load_dotenv
+# load_dotenv("/opt/airflow/src/.env")
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-RESULT_DIR = BASE_DIR / "Resultado"
-RESULT_DIR.mkdir(exist_ok=True)
+# RESULT_DIR: dentro del mount data/, visible desde Windows
+RESULT_DIR = Path(
+    os.getenv("COMARB_RESULT_DIR", "/opt/airflow/data/comarb_staging/result")
+)
+RESULT_DIR.mkdir(parents=True, exist_ok=True)
 
 DB = {
-    "user": os.getenv("DB_USER"),
+    "user":     os.getenv("DB_USER"),
     "password": os.getenv("DB_PASS"),
-    "dsn": os.getenv("DB_DSN"),
-    "lib_dir": os.getenv("DB_LIB_DIR"),
+    "dsn":      os.getenv("DB_DSN"),
+    "lib_dir":  os.getenv("DB_LIB_DIR"),   # None → modo thin
 }
 
-# Prefijos de área por régimen
 AREAS = {
-    "sircar": ["901", "904", "905", "906", "908"],
+    "sircar":  ["901", "904", "905", "906", "908"],
     "sircreb": ["901", "904", "905", "906", "908", "916"],
-    "sifere": ["901", "904", "905", "906", "908"],
+    "sifere":  ["901", "904", "905", "906", "908"],
 }
 
-# Mapping de columnas por régimen (para los INSERT)
 TABLES = {
-    "sircar": "ACREDITACIONES_SIRCAR",
-    "sifere": "ACREDITACIONES_SIFERE",
-    "sircreb": "pagos_sircreb",
+    "sircar":  "ACREDITACIONES_SIRCAR_test",
+    "sifere":  "ACREDITACIONES_SIFERE_test",
+    "sircreb": "pagos_sircreb_test",
 }
