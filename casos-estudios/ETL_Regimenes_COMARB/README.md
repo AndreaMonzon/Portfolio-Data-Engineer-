@@ -23,6 +23,23 @@ Demostrar un proceso ETL end-to-end en un contexto real de **Data Engineering**,
 
 ---
 
+Decision tecnica                             
+
+Idempotencia por Hash (SHA-256): El script cp_archivos.py calcula el hash del archivo más reciente. Si ese hash ya fue procesado (guardado en un JSON local), la tarea se saltea. Esto evita insertar datos duplicados en Oracle si el pipeline se corre varias veces el mismo día.
+
+Control de Flujo con Gatekeeper: La primera tarea del DAG (gatekeeper_check_files) valida que existan archivos en todas las carpetas requeridas. Si falta alguna, lanza un AirflowSkipException y no avanza, ahorrando tiempo de cómputo.
+
+Airflow + Docker Aislado: Todo el entorno de ejecución está containerizado, garantizando que funcione igual en cualquier máquina.
+
+Importaciones Diferidas en el DAG: Las importaciones de los módulos pesados (como pandas u oracledb) se hacen dentro de las funciones de las tareas, evitando que el Scheduler de Airflow colapse al intentar parsear el DAG.
+
+Un solo connection pool reutilizado entre regímenes, configurado con try/finally para asegurar el cierre de conexiones incluso si falla la carga.
+
+Parsers puros (funciones sin I/O) → fáciles de testear.
+
+Archivado de procesados: Al terminar, los archivos se mueven a la carpeta procesados/, dejando el staging limpio para el próximo cierre mensual.
+
+
 ## Arquitectura (Airflow + Docker)
 
 El proyecto corre sobre un clúster local de Airflow (CeleryExecutor) levantado con Docker Compose.
@@ -60,20 +77,5 @@ F:\Tableau\Regimenes CM               (Carpeta de Red / Origen)
                                   Oracle DB
 
 
-Decision tecnica                             
-
-Idempotencia por Hash (SHA-256): El script cp_archivos.py calcula el hash del archivo más reciente. Si ese hash ya fue procesado (guardado en un JSON local), la tarea se saltea. Esto evita insertar datos duplicados en Oracle si el pipeline se corre varias veces el mismo día.
-
-Control de Flujo con Gatekeeper: La primera tarea del DAG (gatekeeper_check_files) valida que existan archivos en todas las carpetas requeridas. Si falta alguna, lanza un AirflowSkipException y no avanza, ahorrando tiempo de cómputo.
-
-Airflow + Docker Aislado: Todo el entorno de ejecución está containerizado, garantizando que funcione igual en cualquier máquina.
-
-Importaciones Diferidas en el DAG: Las importaciones de los módulos pesados (como pandas u oracledb) se hacen dentro de las funciones de las tareas, evitando que el Scheduler de Airflow colapse al intentar parsear el DAG.
-
-Un solo connection pool reutilizado entre regímenes, configurado con try/finally para asegurar el cierre de conexiones incluso si falla la carga.
-
-Parsers puros (funciones sin I/O) → fáciles de testear.
-
-Archivado de procesados: Al terminar, los archivos se mueven a la carpeta procesados/, dejando el staging limpio para el próximo cierre mensual.
 
 
