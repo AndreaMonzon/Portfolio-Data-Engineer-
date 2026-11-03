@@ -65,6 +65,11 @@ En la carpeta [docs/](./docs) encontrarás diagramas y detalles complementarios 
 
 ---
 
+---
+
 ## Contacto
 
+* **LinkedIn:** [linkedin.com/in/andrea-monzon-794222118](https://www.linkedin.com/in/andrea-monzon-794222118/)
+* **Email:** [ticmonzonandrea@hotmail.com](mailto:ticmonzonandrea@hotmail.com)
+* **Teléfono:** [+54 9 379 506-2033](https://wa.me/5493795062033)
 * **GitHub:** [@AndreaMonzon](https://github.com/AndreaMonzon)
