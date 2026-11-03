@@ -1,6 +1,6 @@
 # Portfolio de Ingeniería de Datos
 
- Soy **Andrea Monzón**, Ingeniera de Datos con experiencia en el diseño de arquitecturas distribuidas, automatización de pipelines ETL desatendidos y optimización avanzada de rendimiento en bases de datos relacionales orientadas a sistemas tributarios e impuestos.
+ Soy **Andrea Monzón**, Ingeniera de Datos con experiencia en el diseño de arquitecturas distribuidas, automatización de pipelines ETL y optimización avanzada de rendimiento en bases de datos relacionales orientadas a sistemas tributarios e impuestos.
 
 Este repositorio centraliza casos de estudio y desarrollos de ingeniería de datos *end-to-end* enfocados en procesar grandes volúmenes de datos con máxima eficiencia, idempotencia y alta disponibilidad.
 
