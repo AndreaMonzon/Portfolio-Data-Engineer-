@@ -1,6 +1,6 @@
 # Portfolio de Ingeniería de Datos
 
-¡Hola! Soy **Andrea Monzón**, Ingeniera de Datos especializada en el diseño de arquitecturas distribuidas, automatización de pipelines ETL desatendidos y optimización avanzada de rendimiento en bases de datos relacionales orientadas a sistemas tributarios e impuestos.
+ Soy **Andrea Monzón**, Ingeniera de Datos con experiencia en el diseño de arquitecturas distribuidas, automatización de pipelines ETL desatendidos y optimización avanzada de rendimiento en bases de datos relacionales orientadas a sistemas tributarios e impuestos.
 
 Este repositorio centraliza casos de estudio y desarrollos de ingeniería de datos *end-to-end* enfocados en procesar grandes volúmenes de datos con máxima eficiencia, idempotencia y alta disponibilidad.
 
@@ -11,7 +11,7 @@ Este repositorio centraliza casos de estudio y desarrollos de ingeniería de dat
 | Categoría | Tecnologías |
 | :--- | :--- |
 | **Lenguajes** | Python (Pandas, Pytest, Requests), SQL, PL/SQL |
-| **Big Data & Procesamiento** | Apache Spark (PySpark), Data Lakehouse Architectures |
+| **Big Data & Procesamiento** | Apache Spark (PySpark) |
 | **Orquestación & Infraestructura** | Apache Airflow, Docker, Docker Compose |
 | **Bases de Datos** | Oracle DB, SQL Server, DBLink |
 | **Herramientas & Entorno** | Git, GitHub, VS Code, SQL Developer |
