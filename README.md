@@ -28,7 +28,7 @@ Este repositorio centraliza casos de estudio y desarrollos de ingeniería de dat
   * **Lectura JDBC Paralela:** Particionamiento dinámico por columna de año (`ANIO`) y lectura por lotes configurable.
   * **Transformaciones Complejas:** Clasificación analítica de obligaciones corrientes y no corrientes (`_es_corriente`) comparadas contra fechas de vencimiento.
   * **Arquitectura Modular:** Separación estricta en `extract.py`, `transform.py` y `load.py` para testing modular.
-* **🔗 Enlace:** [Ver proyecto ETL Spark](./casos-estudios/ETL_SPARK)
+* ** Enlace:** [Ver proyecto ETL Spark](./casos-estudios/ETL_SPARK)
 
 ---
 
@@ -40,7 +40,7 @@ Este repositorio centraliza casos de estudio y desarrollos de ingeniería de dat
   * **Idempotencia por Hash (SHA-256):** Prevención de duplicados mediante trazabilidad en JSON local antes del procesamiento.
   * **Control de Flujo con Gatekeeper:** Validación de archivos de entrada con `AirflowSkipException` para evitar desperdicio de cómputo.
   * **Importaciones Diferidas:** Carga diferida de paquetes pesados en las tareas del DAG para evitar latencias en el Scheduler de Airflow.
-* **🔗 Enlace:** [Ver proyecto ETL COMARB](./casos-estudios/ETL_Regimenes_COMARB)
+* ** Enlace:** [Ver proyecto ETL COMARB](./casos-estudios/ETL_Regimenes_COMARB)
 
 ---
 
